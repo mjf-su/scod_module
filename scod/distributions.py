@@ -228,7 +228,7 @@ class NormalMeanDiagVarParamLayer(DistributionLayer):
                         loc = mean, 
                         scale = torch.exp(0.5*logvar)
                         ),
-                    reinterpreted_batch_ndims=1
+                    reinterpreted_batch_ndims=2
                 )
     
     def marginalize_gaussian(self, z_mean: torch.Tensor, z_var: torch.Tensor) -> distributions.Distribution:
@@ -238,7 +238,7 @@ class NormalMeanDiagVarParamLayer(DistributionLayer):
         combined_std_dev = torch.sqrt(torch.exp(logvar_mean) + mean_var)
         return distributions.Independent(
                 distributions.Normal(loc=mean_mean, scale=combined_std_dev), 
-                reinterpreted_batch_ndims=1
+                reinterpreted_batch_ndims=2
             )
 
     def marginalize_samples(self, z_samples: torch.Tensor, batch_idx: int = 0) -> distributions.Distribution:
@@ -252,7 +252,7 @@ class NormalMeanDiagVarParamLayer(DistributionLayer):
         )
         return distributions.Independent(
                 distributions.Normal(loc=combined_mean, scale=combined_std_dev), 
-                reinterpreted_batch_ndims=1
+                reinterpreted_batch_ndims=2
             )
     
     def apply_sqrt_F(self, z: torch.Tensor) -> torch.Tensor:

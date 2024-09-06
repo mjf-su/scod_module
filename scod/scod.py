@@ -356,10 +356,10 @@ class SCOD(nn.Module):
         print("computing basis")
         if dataloader_kwargs is None:
             dataloader_kwargs = {
-                "num_workers": 4,
+                "num_workers": 0,
             }
             if device.type != "cpu":
-                dataloader_kwargs["pin_memory"] = True
+                dataloader_kwargs["pin_memory"] = False
         dataloader_kwargs.update({"batch_size": 1})
 
         dataloader = torch.utils.data.DataLoader(dataset, **dataloader_kwargs)
